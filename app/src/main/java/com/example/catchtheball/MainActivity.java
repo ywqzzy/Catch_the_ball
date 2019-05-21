@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private int blackHoleX;
     private int blackHoleY;
 
+    private int score = 0;
 
 
     private Handler handler = new Handler();
@@ -94,9 +95,13 @@ public class MainActivity extends AppCompatActivity {
         blackHole.setX(-80);
         blackHole.setY(-80);
 
+        scoreLabel.setText("score: 0");
+
     }
 
     private void changePos() {
+
+        hitCheck();
 
         pieX -= 12;
         if(pieX < 0) {
@@ -140,6 +145,44 @@ public class MainActivity extends AppCompatActivity {
         }
 
         cat.setY(catY);
+
+        scoreLabel.setText("score: " + score);
+    }
+
+    public void hitCheck() {
+        //pie
+        int pieCenterX = pieX + pie.getWidth()/2;
+        int pieCenterY = pieY + pie.getHeight()/2;
+
+        if(0<= pieCenterX && pieCenterX <= catSize &&
+                  catY <= pieCenterY && pieCenterY <= catY + catSize) {
+            score += 10;
+            pieX = -10;
+        }
+
+        //apple
+        int appleCenterX = appleX + apple.getWidth()/2;
+        int appleCenterY = appleY + apple.getHeight()/2;
+
+        if(0<= appleCenterX && appleCenterX <= catSize &&
+                catY <= appleCenterY && appleCenterY <= catY + catSize) {
+            score += 30;
+            appleX = -10;
+        }
+
+        //blackhole
+        int blackHoleCenterX = blackHoleX + blackHole.getWidth()/2;
+        int blackHoleCenterY = blackHoleY + blackHole.getHeight()/2;
+
+        if(0<= blackHoleCenterX && blackHoleCenterX <= catSize &&
+                catY <= blackHoleCenterY && blackHoleCenterY <= catY + catSize) {
+            timer.cancel();
+            timer = null;
+
+
+            // show result
+        }
+
     }
 
     public boolean onTouchEvent(MotionEvent me) {
