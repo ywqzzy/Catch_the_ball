@@ -1,5 +1,6 @@
 package com.example.catchtheball;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -179,8 +180,10 @@ public class MainActivity extends AppCompatActivity {
             timer.cancel();
             timer = null;
 
-
             // show result
+            Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+            intent.putExtra("SCORE", score);
+            startActivity(intent);
         }
 
     }
